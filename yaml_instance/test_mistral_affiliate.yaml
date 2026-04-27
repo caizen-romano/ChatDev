@@ -1,0 +1,24 @@
+# workflows/test_mistral_affiliate.yaml
+name: TestMistralAffiliate
+description: Simple workflow to test Mistral LLM integration for affiliate marketing use case
+agents:
+  - id: script_agent
+    role: "Affiliate Script Writer"
+    backend: llm
+    provider: mistral
+    inputs:
+      - product_name
+      - target_market
+    prompt: |
+      Write a short TikTok script (30 seconds max) promoting {{product_name}} 
+      for {{target_market}} customers. Highlight benefits, urgency, and 
+      include a call-to-action to click the yellow bag link.
+
+workflow:
+  - from: user
+    to: script_agent
+    inputs:
+      product_name: "Portable Blender"
+      target_market: "USA"
+  - from: script_agent
+    to: user
